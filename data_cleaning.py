@@ -39,103 +39,77 @@ df.text = df.text.str.replace(r'[^a-z0-9~`!@#$%^&*()_+[{\]\}\|;:\'\",<.>/? ]+','
 # dropping all NA/NaN values in the column user_location
 df.dropna(subset=['user_location'],inplace=True)
 
-###### COUNTRY SEMANTICS #######
-# adding all data that include 'Canada' in user_location to the new dataframe
-temp_df = temp_df.append(df[df['user_location'].str.contains('canada')])
+# ###### COUNTRY SEMANTICS #######
+# # adding all data that include 'Canada' in user_location to the new dataframe
+# temp_df = temp_df.append(df[df['user_location'].str.contains('canada')])
+#
+# ##### PROVINCE ANALYSIS ########
+# # Using the full name of the province + internationally approved abbreviations
+#
+# ## NEWFOUNDLAND AND LABRADOR ##
+# temp_df = temp_df.append(df[df['user_location'].str.contains('newfoundland and labrador')])
+#
+#
+# ## PRINCE EDWARD ISLAND ##
+# temp_df = temp_df.append(df[df['user_location'].str.contains('prince edward island')])
+#
+#
+# ## NOVA SCOTIA ##
+# temp_df = temp_df.append(df[df['user_location'].str.contains('nova scotia')])
+#
+# ## NEW BRUNSWICK ##
+# temp_df = temp_df.append(df[df['user_location'].str.contains('new brunswick')])
+#
+#
+# ## QUEBEC ##
+# temp_df = temp_df.append(df[df['user_location'].str.contains('quebec')])
+#
+# ## ONTARIO ##
+#
+# temp_df = temp_df.append(df[df['user_location'].str.contains('ontario')])
+#
+#
+# ## MANITOBA ##
+# temp_df = temp_df.append(df[df['user_location'].str.contains('manitoba')])
+#
+#
+# ## SASKATCHEWAN ##
+# temp_df = temp_df.append(df[df['user_location'].str.contains('saskatchewan')])
+#
+# ## ALBERTA ##
+# temp_df = temp_df.append(df[df['user_location'].str.contains('alberta')])
+#
+# ## BRITISH COLUMBIA ##
+# temp_df = temp_df.append(df[df['user_location'].str.contains('british columbia')])
+#
+#
+# ## YUKON ##
+# temp_df = temp_df.append(df[df['user_location'].str.contains('yukon')])
+#
+# ## NORTHWEST TERRITORIES ##
+# temp_df = temp_df.append(df[df['user_location'].str.contains('northwest territories')])
+#
+# ## NUNAVUT ##
+# temp_df = temp_df.append(df[df['user_location'].str.contains('nunavut')])
 
-##### PROVINCE ANALYSIS ########
-# Using the full name of the province + internationally approved abbreviations
+################# CITY ANALYSIS ##################
+# cities = pd.read_csv("Cities/list_of_municipalities_of_canada-1633j.csv", engine='python')
+# # make all text lower case
+# cities.Name = cities.Name.str.lower()
+# # dropping all NaN values
+# cities.dropna(subset=['Name'],inplace=True)
+#
+# for city in cities.Name:
+#     print(city)
+#     # checks to see if any user location starts with, ends with, or has the city name in between its description
+#     temp_df = temp_df.append(df[df['user_location'].str.startswith(city+" ")])
+#     temp_df = temp_df.append(df[df['user_location'].str.endswith(city + " ")])
+#     temp_df = temp_df.append(df[df['user_location'].str.find(" " + city + " ")!=-1])
+#     temp_df = temp_df.append(df[df['user_location'].str.find(" ," + city + ", ") != -1])
+#     temp_df = temp_df.append(df[df['user_location'].str.find(" ," + city + " ") != -1])
+#     temp_df = temp_df.append(df[df['user_location'].str.find(" " + city + ", ") != -1])
 
-## NEWFOUNDLAND AND LABRADOR ##
 
-# adding all data that include 'Ontario' in user_location to the new dataframe
-temp_df = temp_df.append(df[df['user_location'].str.contains('newfoundland and labrador')])
-# adding all data that include 'ON' in user_location to the new dataframe
-temp_df = temp_df.append(df[df['user_location'].str.contains('nl')])
-
-## PRINCE EDWARD ISLAND ##
-
-# adding all data that include 'Ontario' in user_location to the new dataframe
-temp_df = temp_df.append(df[df['user_location'].str.contains('prince edward island')])
-# adding all data that include 'ON' in user_location to the new dataframe
-temp_df = temp_df.append(df[df['user_location'].str.contains('pei')])
-
-## NOVA SCOTIA ##
-
-# adding all data that include 'Ontario' in user_location to the new dataframe
-temp_df = temp_df.append(df[df['user_location'].str.contains('nova scotia')])
-# adding all data that include 'ON' in user_location to the new dataframe
-temp_df = temp_df.append(df[df['user_location'].str.contains('ns')])
-
-## NEW BRUNSWICK ##
-
-# adding all data that include 'Ontario' in user_location to the new dataframe
-temp_df = temp_df.append(df[df['user_location'].str.contains('new brunswick')])
-# adding all data that include 'ON' in user_location to the new dataframe
-temp_df = temp_df.append(df[df['user_location'].str.contains('nb')])
-
-## QUEBEC ##
-
-# adding all data that include 'Ontario' in user_location to the new dataframe
-temp_df = temp_df.append(df[df['user_location'].str.contains('quebec')])
-# adding all data that include 'ON' in user_location to the new dataframe
-temp_df = temp_df.append(df[df['user_location'].str.contains('QC')])
-
-## ONTARIO ##
-
-# adding all data that include 'Ontario' in user_location to the new dataframe
-temp_df = temp_df.append(df[df['user_location'].str.contains('ontario')])
-# adding all data that include 'ON' in user_location to the new dataframe
-temp_df = temp_df.append(df[df['user_location'].str.contains('on')])
-
-## MANITOBA ##
-
-# adding all data that include 'Ontario' in user_location to the new dataframe
-temp_df = temp_df.append(df[df['user_location'].str.contains('manitoba')])
-# adding all data that include 'ON' in user_location to the new dataframe
-temp_df = temp_df.append(df[df['user_location'].str.contains('MB')])
-
-## SASKATCHEWAN ##
-
-# adding all data that include 'Saskatchewan' in user_location to the new dataframe
-temp_df = temp_df.append(df[df['user_location'].str.contains('saskatchewan')])
-# adding all data that include 'ON' in user_location to the new dataframe
-temp_df = temp_df.append(df[df['user_location'].str.contains('sk')])
-
-## ALBERTA ##
-
-# adding all data that include 'Ontario' in user_location to the new dataframe
-temp_df = temp_df.append(df[df['user_location'].str.contains('alberta')])
-# adding all data that include 'ON' in user_location to the new dataframe
-temp_df = temp_df.append(df[df['user_location'].str.contains('ab')])
-
-## BRITISH COLUMBIA ##
-
-# adding all data that include 'Ontario' in user_location to the new dataframe
-temp_df = temp_df.append(df[df['user_location'].str.contains('british columbia')])
-# adding all data that include 'ON' in user_location to the new dataframe
-temp_df = temp_df.append(df[df['user_location'].str.contains('bc')])
-
-## YUKON ##
-
-# adding all data that include 'Ontario' in user_location to the new dataframe
-temp_df = temp_df.append(df[df['user_location'].str.contains('yukon')])
-# adding all data that include 'ON' in user_location to the new dataframe
-temp_df = temp_df.append(df[df['user_location'].str.contains('yt')])
-
-## NORTHWEST TERRITORIES ##
-
-# adding all data that include 'Ontario' in user_location to the new dataframe
-temp_df = temp_df.append(df[df['user_location'].str.contains('northwest territories')])
-# adding all data that include 'ON' in user_location to the new dataframe
-temp_df = temp_df.append(df[df['user_location'].str.contains('nt')])
-
-## NUNAVUT ##
-
-# adding all data that include 'Ontario' in user_location to the new dataframe
-temp_df = temp_df.append(df[df['user_location'].str.contains('nunavut')])
-# adding all data that include 'ON' in user_location to the new dataframe
-temp_df = temp_df.append(df[df['user_location'].str.contains('nu')])
 
 
 
@@ -145,5 +119,12 @@ rt_tweets_df = pd.DataFrame()
 rt_tweets_df = rt_tweets_df.append(temp_df[temp_df['text'].str.contains('rt @')])
 og_tweets_df = temp_df[temp_df['text'].str.contains('rt @') == False]
 
-rt_tweets_df.to_csv('./clean_data/retweets.csv')
-og_tweets_df.to_csv('./clean_data/og_tweets.csv')
+# exporting files with different names each time based on the year, month, and day
+import time
+timestr = time.strftime("%Y%m%d-%H%M%S")
+
+rt_tweets_df.to_csv('./clean_data/retweets-{}.csv'.format(timestr))
+print("Dimensions of retweets: {}".format(rt_tweets_df.shape))
+
+og_tweets_df.to_csv('./clean_data/og_tweets-{}.csv'.format(timestr))
+print("Dimensions of original: {}".format(og_tweets_df.shape))
