@@ -39,77 +39,70 @@ df.text = df.text.str.replace(r'[^a-z0-9~`!@#$%^&*()_+[{\]\}\|;:\'\",<.>/? ]+','
 # dropping all NA/NaN values in the column user_location
 df.dropna(subset=['user_location'],inplace=True)
 
-# ###### COUNTRY SEMANTICS #######
-# # adding all data that include 'Canada' in user_location to the new dataframe
-# temp_df = temp_df.append(df[df['user_location'].str.contains('canada')])
-#
-# ##### PROVINCE ANALYSIS ########
-# # Using the full name of the province + internationally approved abbreviations
-#
-# ## NEWFOUNDLAND AND LABRADOR ##
-# temp_df = temp_df.append(df[df['user_location'].str.contains('newfoundland and labrador')])
-#
-#
-# ## PRINCE EDWARD ISLAND ##
-# temp_df = temp_df.append(df[df['user_location'].str.contains('prince edward island')])
-#
-#
-# ## NOVA SCOTIA ##
-# temp_df = temp_df.append(df[df['user_location'].str.contains('nova scotia')])
-#
-# ## NEW BRUNSWICK ##
-# temp_df = temp_df.append(df[df['user_location'].str.contains('new brunswick')])
-#
-#
-# ## QUEBEC ##
-# temp_df = temp_df.append(df[df['user_location'].str.contains('quebec')])
-#
-# ## ONTARIO ##
-#
-# temp_df = temp_df.append(df[df['user_location'].str.contains('ontario')])
-#
-#
-# ## MANITOBA ##
-# temp_df = temp_df.append(df[df['user_location'].str.contains('manitoba')])
-#
-#
-# ## SASKATCHEWAN ##
-# temp_df = temp_df.append(df[df['user_location'].str.contains('saskatchewan')])
-#
-# ## ALBERTA ##
-# temp_df = temp_df.append(df[df['user_location'].str.contains('alberta')])
-#
-# ## BRITISH COLUMBIA ##
-# temp_df = temp_df.append(df[df['user_location'].str.contains('british columbia')])
-#
-#
-# ## YUKON ##
-# temp_df = temp_df.append(df[df['user_location'].str.contains('yukon')])
-#
-# ## NORTHWEST TERRITORIES ##
-# temp_df = temp_df.append(df[df['user_location'].str.contains('northwest territories')])
-#
-# ## NUNAVUT ##
-# temp_df = temp_df.append(df[df['user_location'].str.contains('nunavut')])
+###### COUNTRY SEMANTICS #######
+# adding all data that include 'Canada' in user_location to the new dataframe
+temp_df = temp_df.append(df[df['user_location'].str.contains('canada')])
+
+##### PROVINCE ANALYSIS ########
+# Using the full name of the province + internationally approved abbreviations
+
+## NEWFOUNDLAND AND LABRADOR ##
+temp_df = temp_df.append(df[df['user_location'].str.contains('newfoundland and labrador')])
+
+
+## PRINCE EDWARD ISLAND ##
+temp_df = temp_df.append(df[df['user_location'].str.contains('prince edward island')])
+
+
+## NOVA SCOTIA ##
+temp_df = temp_df.append(df[df['user_location'].str.contains('nova scotia')])
+
+## NEW BRUNSWICK ##
+temp_df = temp_df.append(df[df['user_location'].str.contains('new brunswick')])
+
+
+## QUEBEC ##
+temp_df = temp_df.append(df[df['user_location'].str.contains('quebec')])
+
+## ONTARIO ##
+
+temp_df = temp_df.append(df[df['user_location'].str.contains('ontario')])
+
+
+## MANITOBA ##
+temp_df = temp_df.append(df[df['user_location'].str.contains('manitoba')])
+
+
+## SASKATCHEWAN ##
+temp_df = temp_df.append(df[df['user_location'].str.contains('saskatchewan')])
+
+## ALBERTA ##
+temp_df = temp_df.append(df[df['user_location'].str.contains('alberta')])
+
+## BRITISH COLUMBIA ##
+temp_df = temp_df.append(df[df['user_location'].str.contains('british columbia')])
+
+
+## YUKON ##
+temp_df = temp_df.append(df[df['user_location'].str.contains('yukon')])
+
+## NORTHWEST TERRITORIES ##
+temp_df = temp_df.append(df[df['user_location'].str.contains('northwest territories')])
+
+## NUNAVUT ##
+temp_df = temp_df.append(df[df['user_location'].str.contains('nunavut')])
 
 ################# CITY ANALYSIS ##################
-# cities = pd.read_csv("Cities/list_of_municipalities_of_canada-1633j.csv", engine='python')
-# # make all text lower case
-# cities.Name = cities.Name.str.lower()
-# # dropping all NaN values
-# cities.dropna(subset=['Name'],inplace=True)
-#
-# for city in cities.Name:
-#     print(city)
-#     # checks to see if any user location starts with, ends with, or has the city name in between its description
-#     temp_df = temp_df.append(df[df['user_location'].str.startswith(city+" ")])
-#     temp_df = temp_df.append(df[df['user_location'].str.endswith(city + " ")])
-#     temp_df = temp_df.append(df[df['user_location'].str.find(" " + city + " ")!=-1])
-#     temp_df = temp_df.append(df[df['user_location'].str.find(" ," + city + ", ") != -1])
-#     temp_df = temp_df.append(df[df['user_location'].str.find(" ," + city + " ") != -1])
-#     temp_df = temp_df.append(df[df['user_location'].str.find(" " + city + ", ") != -1])
+cities = pd.read_csv("Cities/cities.csv", engine='python')
+# make all text lower case
+cities.Name = cities.Name.str.lower()
+# dropping all NaN values
+cities.dropna(subset=['Name'],inplace=True)
 
-
+for city in cities.Name:
+    # checks to see if any user location starts with or ends with the city
+    temp_df = temp_df.append(df[df['user_location'].str.startswith(city)])
+    temp_df = temp_df.append(df[df['user_location'].str.endswith(city)])
 
 
 
