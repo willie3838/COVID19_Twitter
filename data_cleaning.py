@@ -48,52 +48,11 @@ def clean_data(filename : str):
 
     ##### PROVINCE ANALYSIS ########
     # Using the full name of the province + internationally approved abbreviations
+    provinces = {"prince edward island", "nova scotia", "new brunswick", "quebec", "ontario", "manitoba", "saskatchewan",
+                 "alberta", "british columbia", "yukon", "northwest territories", "nunavut"}
+    for x in provinces:
+        temp_df = temp_df.append(df[df['user_location'].str.contains(x)])
 
-    ## NEWFOUNDLAND AND LABRADOR ##
-    temp_df = temp_df.append(df[df['user_location'].str.contains('newfoundland and labrador')])
-
-
-    ## PRINCE EDWARD ISLAND ##
-    temp_df = temp_df.append(df[df['user_location'].str.contains('prince edward island')])
-
-
-    ## NOVA SCOTIA ##
-    temp_df = temp_df.append(df[df['user_location'].str.contains('nova scotia')])
-
-    ## NEW BRUNSWICK ##
-    temp_df = temp_df.append(df[df['user_location'].str.contains('new brunswick')])
-
-
-    ## QUEBEC ##
-    temp_df = temp_df.append(df[df['user_location'].str.contains('quebec')])
-
-    ## ONTARIO ##
-
-    temp_df = temp_df.append(df[df['user_location'].str.contains('ontario')])
-
-
-    ## MANITOBA ##
-    temp_df = temp_df.append(df[df['user_location'].str.contains('manitoba')])
-
-
-    ## SASKATCHEWAN ##
-    temp_df = temp_df.append(df[df['user_location'].str.contains('saskatchewan')])
-
-    ## ALBERTA ##
-    temp_df = temp_df.append(df[df['user_location'].str.contains('alberta')])
-
-    ## BRITISH COLUMBIA ##
-    temp_df = temp_df.append(df[df['user_location'].str.contains('british columbia')])
-
-
-    ## YUKON ##
-    temp_df = temp_df.append(df[df['user_location'].str.contains('yukon')])
-
-    ## NORTHWEST TERRITORIES ##
-    temp_df = temp_df.append(df[df['user_location'].str.contains('northwest territories')])
-
-    ## NUNAVUT ##
-    temp_df = temp_df.append(df[df['user_location'].str.contains('nunavut')])
 
     ################# CITY ANALYSIS ##################
     cities = pd.read_csv("Cities/cities.csv", engine='python')
@@ -103,10 +62,25 @@ def clean_data(filename : str):
     cities.dropna(subset=['Name'],inplace=True)
 
     for city in cities.Name:
-        # checks to see if any user location starts with or ends with the city
-        temp_df = temp_df.append(df[df['user_location'].str.startswith(city)])
-        temp_df = temp_df.append(df[df['user_location'].str.endswith(city)])
+        for x in provinces:
+            # checks to see if any user location starts with or ends with the city
+            if(x in df['user_location']):
+                temp_df = temp_df.append(df[df['user_location'].str.startswith(city)])
+                temp_df = temp_df.append(df[df['user_location'].str.endswith(city)])
 
+
+
+    # checks to see which cities made the cut
+    list_of_cities = {}
+    for city in cities.Name:
+        if temp_df['user_location'].str.contains(city).any():
+            if(list_of_cities.get(city) is None):
+                list_of_cities[city] = 1
+            else:
+                list_of_cities[city] += 1
+
+    for k, v in list_of_cities.items():
+        print(k, v)
 
 
     # creating a separate dataframe for retweets
@@ -128,7 +102,6 @@ def clean_data(filename : str):
 def main():
     while True:
         filename = input("Enter the file(s) that you wish to be cleaned (press q to exit): ")
-
         if filename == "q":
             break
 
@@ -138,13 +111,13 @@ def main():
             file = "./Data/"
             file = file + filename[counter]
 
-            try:
-                open(file)
-                print("Cleaning {}...\n".format(filename[counter]))
-                clean_data(file)
-            except:
-                print("File not found try again")
-                break
+            # try:
+            open(file)
+            print("Cleaning {}...\n".format(filename[counter]))
+            clean_data(file)
+            # except:
+            #     print("File not found try again")
+            #     break
 
             counter+=1
 
